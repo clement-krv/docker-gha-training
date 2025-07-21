@@ -100,13 +100,24 @@ jobs:
         context: .
         push: false
         tags: myapp:test
+        load: true
         cache-from: type=gha
         cache-to: type=gha,mode=max
+
+    - name: List Docker images
+      run: docker images
 
     - name: Test Docker image
       run: |
         docker run -d --name test-container -p 5000:5000 myapp:test
-        sleep 10
-        curl -f http://localhost:5000/books || (docker logs test-container && exit 1)
+        sleep 15
+        
+        # Vérifier que le container fonctionne
+        docker ps -a
+        
+        # Tester l'API
+        curl -f http://localhost:5000/books || (echo "API test failed, showing logs:"; docker logs test-container; exit 1)
+        
+        # Nettoyer
         docker stop test-container
         docker rm test-container
