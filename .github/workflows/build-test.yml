@@ -3,9 +3,9 @@ name: Build and Test
 # Déclenché sur chaque push et pull request
 on:
   push:
-    branches: [ master, main, develop ]
-  pull_request:
-    branches: [ master, main ]
+    branches:
+      - master
+      - main
 
 jobs:
   test:
