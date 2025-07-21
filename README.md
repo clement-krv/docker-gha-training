@@ -1,7 +1,56 @@
-# Docker GHA Training
+# Docker Flask Project with CI/CD Pipeline
 
-The goal of this training is to learn how to use Docker and GitHub Actions to build, test and deploy a simple web application. In this training, we will use a simple web application written in Python and Flask.
+## Experience and Challenges Encountered
 
-## License
+During this practical exam, I developed a Flask application with a complete Docker architecture and CI/CD pipeline using GitHub Actions. The application exposes a REST API for book management with a PostgreSQL database.
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Main Challenges
+- **Optimized Dockerfile** : Creating a secure image with non-privileged user, multi-stage caching and minimal size
+- **Docker Compose** : Orchestration with PostgreSQL, secrets management via Docker secrets, and health checks
+- **GitHub Actions CI/CD** : Two distinct workflows - one for testing (all branches/PRs) and one for deployment (master/main only)
+- **Technical Issues** : Resolving YAML errors in workflows, handling `load: true` for Docker Buildx
+
+### Solutions Implemented
+Challenges were resolved through a methodical approach: Dockerfile optimization with cached layers, Docker secrets usage for security, and clear separation of responsibilities between test and deployment workflows.
+
+## Next Steps for Production Readiness
+
+### Security
+- Vulnerability scanning with Trivy/Snyk
+- Automatic secrets rotation
+- HTTPS with SSL certificates (Let's Encrypt)
+- Network policies and container isolation
+
+### Monitoring & Observability
+- Centralized logging (ELK Stack or Grafana Loki)
+- Metrics with Prometheus/Grafana
+- Advanced health checks and alerting
+- Distributed tracing (Jaeger/Zipkin)
+
+### Infrastructure
+- Kubernetes orchestration (Helm charts)
+- Load balancing and auto-scaling
+- Automated database backup
+- Multiple environments (dev/staging/prod)
+
+### Advanced CI/CD
+- End-to-end integration testing
+- Blue-green or canary deployment
+- Automatic rollback on failure
+- Automated performance validation
+
+## Architecture Overview
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   GitHub Actions │    │   Docker Hub    │    │   Production    │
+│                 │───▶│     Registry    │───▶│   Environment   │
+│  Build & Test   │    │                 │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+        │
+        ▼
+┌─────────────────┐    ┌─────────────────┐
+│   Flask API     │◄──▶│   PostgreSQL    │
+│   (Docker)      │    │   (Docker)      │
+└─────────────────┘    └─────────────────┘
+```
